@@ -1,8 +1,6 @@
-//console.log('finaname : ' + __filename);
 const ytdl = require('ytdl-core');
 const request = require("request");
 const async = require('async');
-const fs = require('fs');
 var overlap = [];
 var playlist = [];
 var initial;
@@ -18,41 +16,10 @@ sort_str = (arr,request) => {
   return out;
 }
 
-//https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyBJkJ520IYJbqgc7CZzm7K4QQM3Xeu3kME&part=snippet&playlistId=PLoQo1ydcVLhVffZJ2MKqBiGmHmwPw1D9V
-delete_other = async (msg) => {
-	const except = ["일반","봇뽑기","테스트","잡담","사징","main"];
-	for(;;){
-		msg.guild.channels.cache .filter((channel) => { return !except.includes(channel.name) }).first().delete();
-		await sleep(1000);
-	}
-}
 const sleep = (ms) => {
     return new Promise(resolve=>{
         setTimeout(resolve,ms)
     })
-}
-
-
-dirlist = (dir,msg) =>{
-	msg.delete();
-	var count = 0;
-	fs.readdirSync(dir).forEach(ddir => {
-		if(!ddir.includes(".")){
-			msg.guild.channels.create(ddir, {type: 'text'})
-				.then((channel) => {
-					//const parent = "819915232197214258";
-					//channel.setParent(parent);
-					fs.readdirSync(dir+ddir).forEach(file => {
-				        if(file.includes('.jpg')||file.includes('.jpeg')||file.includes('.png')||file.includes('.gif')){
-					        channel.send({files: [dir+ddir+"/"+file]});
-					        console.log(dir+ddir+"/"+file);
-					        count++
-				        }
-			        });
-				});
-		}
-	})
-	console.log(count);
 }
 
 var list = {};
